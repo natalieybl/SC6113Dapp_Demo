@@ -14,6 +14,10 @@ def store_money():
 def transfer_money():
     return render_template('transfer_money.html')
 
+@app.route('/loop',methods=["get","post"])
+def loop():
+    return render_template('loop.html')
+
 if __name__=='__main__':
     app.run()
     #app.run(host='0.0.0.0', port=8000, debug=True)
