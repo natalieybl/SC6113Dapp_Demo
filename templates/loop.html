@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loop Interaction</title>
+    <!-- Load Web3.js -->
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            input, button {
+                font-size: 14px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Loop Interaction</h1>
+        <label for="inputValue">Enter a Value for A:</label>
+        <input type="number" id="inputValue" placeholder="Enter a number">
+        <button class="btn" onclick="assignAndLoop()">Submit and Calculate</button>
+        <br>
+        <br>
+        <label for="resultBox">Result of B:</label>
+        <input type="text" id="resultBox" readonly>
+        <form action = "/" method="post">
+        <input type="submit" value="Back to Main">
+        </form>
+    </div>
+
+    <script src=" https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        if (typeof window.ethereum !== 'undefined') {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+
+        const contractAddress = '0x81Afd5f802eEe8CC51c48a82d444f94a31a8CA4B';
+        const contractABI = [
+        {
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "num",
+				"type": "uint256"
+			}
+		],
+		"name": "assign_a",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "do_loop",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "get",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+    
+
+        const web3 = new Web3(Web3.givenProvider);
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+    
+        async function assignAndLoop() {
+            const inputValue = document.getElementById("inputValue").value;
+            if (!inputValue) {
+                alert("Please enter a value.");
+                return;
+            }
+               try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+
+                // Call assign_a function
+                await contract.methods.assign_a(inputValue).send({ from: account });
+
+                // Call do_loop function
+                await contract.methods.do_loop().send({ from: account });
+
+                // Call get function to retrieve the value of b
+                const result = await contract.methods.get().call();
+                document.getElementById("resultBox").value = result;
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
