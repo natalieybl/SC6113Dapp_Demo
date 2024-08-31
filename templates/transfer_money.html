@@ -52,9 +52,10 @@
         }
 
         p {
-            margin-top: 20px;
-            font-size: 18px;
+            margin-top: 15px;
+            font-size: 14px;
             color: #007bff;
+            text-align: left;
         }
 
         @media (max-width: 768px) {
@@ -70,10 +71,7 @@
                 font-size: 14px;
             }
 
-            p {
-                font-size: 16px;
-            }
-        }
+      }
     </style>
 </head>  
 <body>
@@ -81,13 +79,13 @@
 <h2>Welcome to Transfer Money</h2>
 
 <input type="text" id="payer_id"  placeholder="Please enter payer address">
-<br><br>
+<br>
 <input type="text" id="payee_id"  placeholder="Please enter payee address">
-<br><br>
+<br>
 <input type="number" id="amount_id"  placeholder="Please enter amount">
-<br><br>
+<br>
 <button class="btn" onclick="transfer()">Trasfer Money</button>
-<br><br>
+<br>
 <button class="btn" onclick="view_transaction()">View Transaction</button>
 <p id="view_payer_id"></p>
 <p id="view_payee_id"></p>
