@@ -53,6 +53,12 @@ def viewDB():
 
 @app.route('/delDB',methods=["get","post"])
 def delDB():
+    conn = sqlite3.connect('dapp.db')
+    c = conn.cursor()
+    c.execute("delete from user")
+    conn.commit()
+    c.close()
+    conn.close()
     return render_template('delete.html')
 
 if __name__=='__main__':
