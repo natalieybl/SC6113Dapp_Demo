@@ -15,17 +15,6 @@ def main():
     conn = sqlite3.connect('dapp.db')
     c = conn.cursor()
     c.execute('insert into user values(?,?)', (r, current_time))
-    #conn.commit()
-    #c.close()
-    #conn.close()
-
-    #display records
-    #c = conn.cursor()
-    c.execute('select * from user')
-    r = ""
-    for row in c.fetchall():
-        r = r + str(row) + "\n"
-    print(r)
     conn.commit()
     c.close()
     conn.close()
@@ -43,6 +32,28 @@ def transfer_money():
 @app.route('/loop',methods=["get","post"])
 def loop():
     return render_template('loop.html')
+
+@app.route('/admin',methods=["get","post"])
+def admin():
+    return render_template('admin.html')
+
+@app.route('/viewDB',methods=["get","post"])
+def viewDB():
+    conn = sqlite3.connect('dapp.db')
+    c = conn.cursor()
+    c.execute('select * from user')
+    r = ""
+    for row in c.fetchall():
+        r = r + str(row) + "\n"
+    print(r)
+    conn.commit()
+    c.close()
+    conn.close()
+    return render_template('view.html', r = r)
+
+@app.route('/delDB',methods=["get","post"])
+def delDB():
+    return render_template('delete.html')
 
 if __name__=='__main__':
     app.run()
