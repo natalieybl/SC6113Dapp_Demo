@@ -7,8 +7,9 @@ def index():
     return render_template('index.html')
 
 @app.route('/main',methods=["get","post"])
-def index():
-    return render_template('main.html')
+def main():
+    r = request.form.get("q")
+    return render_template('main.html', r = r)
 
 @app.route('/store_money',methods=["get","post"])
 def store_money():
