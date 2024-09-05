@@ -24,12 +24,12 @@ def main():
     c.execute('select * from user')
     r = ""
     for row in c.fetchall():
-    r = r + str(row) + "\n"
+        r = r + str(row) + "\n"
     print(r)
     conn.commit()
     c.close()
     conn.close()
-    
+
     return render_template('main.html', r = r)
 
 @app.route('/store_money',methods=["get","post"])
