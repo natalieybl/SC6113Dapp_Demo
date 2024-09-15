@@ -79,6 +79,9 @@
     <div class="container">
         <h2>User Data</h2> 
         {{r}}
+        <div>
+            {{ html_table | safe }}
+        </div>
         <br>
         <form action = "/main" method="post">
             <input type="submit" value="Main">

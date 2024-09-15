@@ -74,13 +74,23 @@
 
         }
     </style>
+     <script>
+        function validateForm() {
+            var name = document.forms["nameForm"]["q"].value;
+            if (name.trim() === "") {
+                alert("Name field cannot be empty");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <h2>Welcome to DAPP Store and Transfer Money.</h2> 
         <h2>May I know your name? </h2>
         <br>
-        <form action = "/main" method="post">
+        <form name="nameForm" action="/main" method="post" onsubmit="return validateForm()">
             <input type="text" name="q">
             <input type="submit" value="Enter">
         </form>
